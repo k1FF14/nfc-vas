@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фото-кнопка</title>
+    <style>
+        body {
+            /* Чорний фон, як і замовляли */
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            /* Flexbox для вирівнювання контенту по центру */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Ховаємо скролли */
+            overflow: hidden; 
+        }
+
+        #photoButton {
+            /* Робимо кнопку великою та квадратною */
+            width: 400px;
+            height: 400px;
+            object-fit: cover;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            /* Піднімаємо кнопку трохи вище центру по вертикалі */
+            transform: translateY(-10vh);
+            /* Додаємо плавність для анімації натискання */
+            transition: transform 0.1s ease-out;
+            /* Забороняємо виділення та перетягування картинки */
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        #photoButton:active {
+            /* Ефект "натискання" кнопки */
+            transform: translateY(-10vh) scale(0.95);
+        }
+
+        /* Адаптивність для мобільних пристроїв, щоб квадрат залишався в межах екрану */
+        @media (max-width: 500px) {
+            #photoButton {
+                width: 80vw;
+                height: 80vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Аудіоелемент з прихованим інтерфейсом -->
+    <audio id="audioPlayer" src="audio.mp3"></audio>
+    
+    <!-- Сама кнопка-картинка. alt="" порожній, щоб не було жодних текстів -->
+    <img id="photoButton" src="image.png" alt="">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('photoButton');
+            const audio = document.getElementById('audioPlayer');
+
+            // Додаємо обробник події кліку по картинці
+            button.addEventListener('click', () => {
+                // Скидаємо час на 0, щоб звук починався спочатку, якщо натиснути декілька разів підряд
+                audio.currentTime = 0;
+                
+                // Відтворюємо звук
+                audio.play().catch(error => {
+                    console.error("Не вдалося відтворити аудіо. Браузер може блокувати автовідтворення:", error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
